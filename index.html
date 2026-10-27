@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Photo Frame Maker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><span class="brand-mark">PF</span><span>Photo Frame Maker<small>আপনার ছবি, আপনার ফ্রেম</small></span></a>
+    <a class="github" href="https://pages.github.com/" target="_blank" rel="noopener">Free hosting · GitHub Pages ↗</a>
+  </header>
+
+  <main class="wrap">
+    <section class="intro">
+      <p class="eyebrow">FREE ONLINE PHOTO EDITOR</p>
+      <h1>আপনার ছবিতে যোগ করুন <span>পছন্দের ফ্রেম</span></h1>
+      <p class="sub">ছবি বেছে নিন, ফ্রেমে ঠিকমতো বসান, তারপর PNG ডাউনলোড করুন। আপনার ছবি এই ব্রাউজারেই প্রসেস হবে।</p>
+    </section>
+
+    <section class="editor">
+      <aside class="controls">
+        <div class="step"><span>01</span><div><h2>আপনার ছবি</h2><p>JPG, PNG বা WebP</p></div></div>
+        <label class="upload" for="photoInput"><span class="upload-icon">＋</span><strong>ছবি নির্বাচন করুন</strong><small>কম্পিউটার বা মোবাইল থেকে</small></label>
+        <input id="photoInput" type="file" accept="image/*" hidden>
+
+        <div class="control-group">
+          <label for="frameSelect">ফ্রেম নির্বাচন</label>
+          <select id="frameSelect">
+            <option value="classic">Classic — নীল বর্ডার</option>
+            <option value="celebration">Celebration — লাল ও সোনালি</option>
+            <option value="minimal">Minimal — সাদা বর্ডার</option>
+            <option value="joy">Joy Bangla inspired — সবুজ ও লাল</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <div class="range-heading"><label for="zoom">ছবির জুম</label><output id="zoomValue">100%</output></div>
+          <input id="zoom" type="range" min="50" max="200" value="100">
+        </div>
+        <div class="control-group">
+          <label>ছবি সরান</label>
+          <div class="move-grid">
+            <button type="button" data-move="up" aria-label="উপরে">↑</button>
+            <button type="button" data-move="left" aria-label="বামে">←</button>
+            <button type="button" data-move="center" aria-label="মাঝে">◎</button>
+            <button type="button" data-move="right" aria-label="ডানে">→</button>
+            <button type="button" data-move="down" aria-label="নিচে">↓</button>
+          </div>
+          <small class="hint">প্রিভিউর ছবিটি মাউস বা আঙুল দিয়ে টেনে সরাতেও পারবেন।</small>
+        </div>
+
+        <div class="control-group">
+          <label for="format">ডাউনলোডের মাপ</label>
+          <select id="format">
+            <option value="1080x1350">Portrait · 1080 × 1350</option>
+            <option value="1080x1080">Square · 1080 × 1080</option>
+            <option value="1080x1920">Story · 1080 × 1920</option>
+          </select>
+        </div>
+        <div class="actions">
+          <button id="downloadBtn" class="primary" type="button" disabled>↓ PNG ডাউনলোড</button>
+          <button id="resetBtn" class="secondary" type="button">রিসেট</button>
+        </div>
+        <p id="status" class="status" role="status">শুরু করতে একটি ছবি নির্বাচন করুন।</p>
+      </aside>
+
+      <section class="preview-panel">
+        <div class="preview-head"><div><h2>লাইভ প্রিভিউ</h2><p>ডাউনলোডের আগে দেখে নিন</p></div><span class="live"><i></i> LIVE</span></div>
+        <div class="canvas-stage">
+          <div class="canvas-shell" id="canvasShell">
+            <canvas id="previewCanvas" width="540" height="675" aria-label="ছবি ও ফ্রেমের প্রিভিউ"></canvas>
+            <div class="empty-state" id="emptyState"><span>▧</span><strong>আপনার ছবি এখানে দেখা যাবে</strong><small>শুরু করতে বাম পাশ থেকে ছবি নির্বাচন করুন</small></div>
+          </div>
+        </div>
+        <div class="preview-foot"><span>🔒 ছবি আপনার ডিভাইসেই থাকে</span><span>PNG · High quality</span></div>
+      </section>
+    </section>
+    <footer>© <span id="year"></span> Photo Frame Maker · তৈরি করা হয়েছে GitHub Pages-এর জন্য</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
