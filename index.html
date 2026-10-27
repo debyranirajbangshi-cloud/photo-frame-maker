@@ -3,83 +3,76 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111827">
   <title>Photo Frame Maker</title>
+  <meta name="description" content="Upload your photo, choose a frame, and download your framed image.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="./"><span class="brand-mark">PF</span><span>Photo Frame Maker<small>আপনার ছবি, আপনার ফ্রেম</small></span></a>
-    <a class="github" href="https://pages.github.com/" target="_blank" rel="noopener">Free hosting · GitHub Pages ↗</a>
+    <div class="brand-mark">PF</div>
+    <div>
+      <h1>Photo Frame Maker</h1>
+      <p>আপনার ছবি সাজান, ফ্রেম দিন, ডাউনলোড করুন</p>
+    </div>
   </header>
 
-  <main class="wrap">
-    <section class="intro">
-      <p class="eyebrow">FREE ONLINE PHOTO EDITOR</p>
-      <h1>আপনার ছবিতে যোগ করুন <span>পছন্দের ফ্রেম</span></h1>
-      <p class="sub">ছবি বেছে নিন, ফ্রেমে ঠিকমতো বসান, তারপর PNG ডাউনলোড করুন। আপনার ছবি এই ব্রাউজারেই প্রসেস হবে।</p>
+  <main class="layout">
+    <section class="controls panel">
+      <h2>আপনার ছবি</h2>
+      <label class="upload-button" for="photoInput">📷 ছবি নির্বাচন করুন</label>
+      <input id="photoInput" type="file" accept="image/*">
+      <p class="hint">JPG, PNG বা WEBP ছবি নির্বাচন করুন। ছবি আপনার ব্রাউজারেই প্রসেস হবে।</p>
+      <p id="status" class="status" role="status" aria-live="polite">প্রথমে একটি ছবি নির্বাচন করুন।</p>
+
+      <h2>ফ্রেম বেছে নিন</h2>
+      <div class="frame-options">
+        <button type="button" class="frame-choice active" data-frame="classic">Classic Blue</button>
+        <button type="button" class="frame-choice" data-frame="celebration">Celebration</button>
+        <button type="button" class="frame-choice" data-frame="minimal">Minimal White</button>
+        <button type="button" class="frame-choice" data-frame="green">Green & Red</button>
+      </div>
+
+      <h2>ছবির অবস্থান</h2>
+      <label for="zoomRange">জুম</label>
+      <input id="zoomRange" type="range" min="1" max="2.5" value="1" step="0.01">
+      <div class="button-row">
+        <button type="button" id="moveLeft">← বামে</button>
+        <button type="button" id="moveRight">ডানে →</button>
+      </div>
+      <div class="button-row">
+        <button type="button" id="moveUp">↑ উপরে</button>
+        <button type="button" id="moveDown">↓ নিচে</button>
+        <button type="button" id="resetPosition">রিসেট</button>
+      </div>
+
+      <h2>ডাউনলোড সাইজ</h2>
+      <label for="sizeSelect">ছবির অনুপাত</label>
+      <select id="sizeSelect">
+        <option value="portrait">Portrait (1080 × 1350)</option>
+        <option value="square">Square (1080 × 1080)</option>
+        <option value="story">Story (1080 × 1920)</option>
+      </select>
+      <button type="button" id="downloadBtn" class="download-button">⬇ PNG ডাউনলোড</button>
     </section>
 
-    <section class="editor">
-      <aside class="controls">
-        <div class="step"><span>01</span><div><h2>আপনার ছবি</h2><p>JPG, PNG বা WebP</p></div></div>
-        <label class="upload" for="photoInput"><span class="upload-icon">＋</span><strong>ছবি নির্বাচন করুন</strong><small>কম্পিউটার বা মোবাইল থেকে</small></label>
-        <input id="photoInput" type="file" accept="image/*" hidden>
-
-        <div class="control-group">
-          <label for="frameSelect">ফ্রেম নির্বাচন</label>
-          <select id="frameSelect">
-            <option value="classic">Classic — নীল বর্ডার</option>
-            <option value="celebration">Celebration — লাল ও সোনালি</option>
-            <option value="minimal">Minimal — সাদা বর্ডার</option>
-            <option value="joy">Joy Bangla inspired — সবুজ ও লাল</option>
-          </select>
+    <section class="preview-section">
+      <div class="preview-heading">
+        <h2>লাইভ প্রিভিউ</h2>
+        <span>আপনার ছবি এখানে দেখা যাবে</span>
+      </div>
+      <div class="preview-wrap">
+        <canvas id="frameCanvas" width="540" height="675" aria-label="Photo frame preview"></canvas>
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">＋</div>
+          <strong>ছবি নির্বাচন করুন</strong>
+          <span>আপনার ছবিটি এখানে ফ্রেমসহ দেখা যাবে</span>
         </div>
-
-        <div class="control-group">
-          <div class="range-heading"><label for="zoom">ছবির জুম</label><output id="zoomValue">100%</output></div>
-          <input id="zoom" type="range" min="50" max="200" value="100">
-        </div>
-        <div class="control-group">
-          <label>ছবি সরান</label>
-          <div class="move-grid">
-            <button type="button" data-move="up" aria-label="উপরে">↑</button>
-            <button type="button" data-move="left" aria-label="বামে">←</button>
-            <button type="button" data-move="center" aria-label="মাঝে">◎</button>
-            <button type="button" data-move="right" aria-label="ডানে">→</button>
-            <button type="button" data-move="down" aria-label="নিচে">↓</button>
-          </div>
-          <small class="hint">প্রিভিউর ছবিটি মাউস বা আঙুল দিয়ে টেনে সরাতেও পারবেন।</small>
-        </div>
-
-        <div class="control-group">
-          <label for="format">ডাউনলোডের মাপ</label>
-          <select id="format">
-            <option value="1080x1350">Portrait · 1080 × 1350</option>
-            <option value="1080x1080">Square · 1080 × 1080</option>
-            <option value="1080x1920">Story · 1080 × 1920</option>
-          </select>
-        </div>
-        <div class="actions">
-          <button id="downloadBtn" class="primary" type="button" disabled>↓ PNG ডাউনলোড</button>
-          <button id="resetBtn" class="secondary" type="button">রিসেট</button>
-        </div>
-        <p id="status" class="status" role="status">শুরু করতে একটি ছবি নির্বাচন করুন।</p>
-      </aside>
-
-      <section class="preview-panel">
-        <div class="preview-head"><div><h2>লাইভ প্রিভিউ</h2><p>ডাউনলোডের আগে দেখে নিন</p></div><span class="live"><i></i> LIVE</span></div>
-        <div class="canvas-stage">
-          <div class="canvas-shell" id="canvasShell">
-            <canvas id="previewCanvas" width="540" height="675" aria-label="ছবি ও ফ্রেমের প্রিভিউ"></canvas>
-            <div class="empty-state" id="emptyState"><span>▧</span><strong>আপনার ছবি এখানে দেখা যাবে</strong><small>শুরু করতে বাম পাশ থেকে ছবি নির্বাচন করুন</small></div>
-          </div>
-        </div>
-        <div class="preview-foot"><span>🔒 ছবি আপনার ডিভাইসেই থাকে</span><span>PNG · High quality</span></div>
-      </section>
+      </div>
+      <p class="preview-note">টিপস: ছবির অবস্থান ঠিক করতে বাটন ব্যবহার করুন, তারপর PNG ডাউনলোড করুন।</p>
     </section>
-    <footer>© <span id="year"></span> Photo Frame Maker · তৈরি করা হয়েছে GitHub Pages-এর জন্য</footer>
   </main>
+
+  <footer>Photo Frame Maker · Free browser-based tool</footer>
   <script src="script.js"></script>
 </body>
 </html>
